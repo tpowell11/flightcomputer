@@ -1,5 +1,4 @@
 //written for the Arduino uno or compatible
-//switch for debug functions
 #include <Arduino.h> //GNU LGPL Arduino
 #include <Wire.h> //GNU LGPL Arduino
 #include <MS5611.h> //MIT License, Rob Tillaart
