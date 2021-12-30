@@ -5,6 +5,8 @@
 #include <Adafruit_ICM20X.h> //BSD Liscence, Adafruit
 #include <Adafruit_ICM20649.h> //BSD Liscence, Adafruit
 #include <Adafruit_Sensor.h> //Apache Liscence, Adafruit
+#include <SPI.h> //needed for lorawan 
+#include <RH_RF95.h> //GPL Liscence, AirSpayce Ltd. 
 #include "../include/megapins.h" //pin table
 #include "../include/addr.h" //i2c addresses
 #include "../include/v3.hpp" //vector library
@@ -18,6 +20,7 @@
 #endif
 //======== Objects and constants
 MS5611 ms(0x77);
+RH_RF95 lora(rf_cs, rf_irq); //init of rfm95w
 Adafruit_ICM20649 icm;
 uint16_t measurement_delay_us = measurementDel;
 float imudel_s = 0.065535;
@@ -36,8 +39,10 @@ void setup() {
 
   //Barometer Setup & initial readings
   bool b = ms.begin(); //start barometer
+  bool r = lora.init(); //start rfm95w
   #if DEBUG == 1 
-  Serial.println(b ? "found" : "not found");
+  Serial.println(b ? "alt ok" : "alt fail");
+  Serial.println(r ? "lora ok" : "lora fail");
   #endif
   if (b == true){
     float *Psum, *Tsum;

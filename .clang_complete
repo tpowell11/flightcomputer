@@ -1,20 +1,21 @@
--I/home/thoma/2021-22-notes/ISR/dev/include
--I/home/thoma/2021-22-notes/ISR/dev/src
--I/home/thoma/2021-22-notes/ISR/dev/.pio/libdeps/megaatmega2560/Adafruit ICM20X
--I/home/thoma/2021-22-notes/ISR/dev/.pio/libdeps/megaatmega2560/Adafruit Unified Sensor
--I/home/thoma/2021-22-notes/ISR/dev/.pio/libdeps/megaatmega2560/Adafruit BusIO
--I/home/thoma/.platformio/packages/framework-arduino-avr/libraries/SPI/src
--I/home/thoma/2021-22-notes/ISR/dev/.pio/libdeps/megaatmega2560/MS5611
--I/home/thoma/.platformio/packages/framework-arduino-avr/libraries/Wire/src
--I/home/thoma/.platformio/packages/framework-arduino-avr/cores/arduino
--I/home/thoma/.platformio/packages/framework-arduino-avr/variants/mega
--I/home/thoma/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src
--I/home/thoma/.platformio/packages/framework-arduino-avr/libraries/HID/src
--I/home/thoma/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src
--I/home/thoma/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include
--I/home/thoma/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed
--I/home/thoma/.platformio/packages/toolchain-atmelavr/avr/include
--DPLATFORMIO=50201
+-IC:/Users/Tom Powell/Documents/GitHub/flightcomputer/include
+-IC:/Users/Tom Powell/Documents/GitHub/flightcomputer/src
+-IC:/Users/Tom Powell/Documents/GitHub/flightcomputer/.pio/libdeps/megaatmega2560/RadioHead
+-IC:/Users/Tom Powell/Documents/GitHub/flightcomputer/.pio/libdeps/megaatmega2560/Adafruit ICM20X
+-IC:/Users/Tom Powell/Documents/GitHub/flightcomputer/.pio/libdeps/megaatmega2560/Adafruit Unified Sensor
+-IC:/Users/Tom Powell/Documents/GitHub/flightcomputer/.pio/libdeps/megaatmega2560/Adafruit BusIO
+-IC:/Users/Tom Powell/.platformio/packages/framework-arduino-avr/libraries/SPI/src
+-IC:/Users/Tom Powell/Documents/GitHub/flightcomputer/.pio/libdeps/megaatmega2560/MS5611
+-IC:/Users/Tom Powell/.platformio/packages/framework-arduino-avr/libraries/Wire/src
+-IC:/Users/Tom Powell/.platformio/packages/framework-arduino-avr/cores/arduino
+-IC:/Users/Tom Powell/.platformio/packages/framework-arduino-avr/variants/mega
+-IC:/Users/Tom Powell/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src
+-IC:/Users/Tom Powell/.platformio/packages/framework-arduino-avr/libraries/HID/src
+-IC:/Users/Tom Powell/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src
+-IC:/Users/Tom Powell/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include
+-IC:/Users/Tom Powell/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed
+-IC:/Users/Tom Powell/.platformio/packages/toolchain-atmelavr/avr/include
+-DPLATFORMIO=50204
 -DARDUINO_AVR_MEGA2560
 -DF_CPU=16000000L
 -DARDUINO_ARCH_AVR
