@@ -1,0 +1,74 @@
+//
+// !!! WARNING !!! AUTO-GENERATED FILE!
+// PLEASE DO NOT MODIFY IT AND USE "platformio.ini":
+// https://docs.platformio.org/page/projectconf/section_env_build.html#build-flags
+//
+{
+    "configurations": [
+        {
+            "name": "PlatformIO",
+            "includePath": [
+                "/home/pi/flightcomputer/local/include",
+                "/home/pi/flightcomputer/local/src",
+                "/home/pi/flightcomputer/local/.pio/libdeps/micro/CryptoLW/src",
+                "/home/pi/flightcomputer/local/.pio/libdeps/micro/RadioHead",
+                "/home/pi/flightcomputer/local/.pio/libdeps/micro/Crypto",
+                "/home/pi/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
+                "/home/pi/.platformio/packages/framework-arduino-avr/cores/arduino",
+                "/home/pi/.platformio/packages/framework-arduino-avr/variants/micro",
+                "/home/pi/flightcomputer/local/.pio/libdeps/micro/Adafruit BusIO",
+                "/home/pi/flightcomputer/local/.pio/libdeps/micro/Adafruit ICM20X",
+                "/home/pi/flightcomputer/local/.pio/libdeps/micro/Adafruit Unified Sensor",
+                "/home/pi/flightcomputer/local/.pio/libdeps/micro/MS5611",
+                "/home/pi/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
+                "/home/pi/.platformio/packages/framework-arduino-avr/libraries/HID/src",
+                "/home/pi/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
+                "/home/pi/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
+                ""
+            ],
+            "browse": {
+                "limitSymbolsToIncludedHeaders": true,
+                "path": [
+                    "/home/pi/flightcomputer/local/include",
+                    "/home/pi/flightcomputer/local/src",
+                    "/home/pi/flightcomputer/local/.pio/libdeps/micro/CryptoLW/src",
+                    "/home/pi/flightcomputer/local/.pio/libdeps/micro/RadioHead",
+                    "/home/pi/flightcomputer/local/.pio/libdeps/micro/Crypto",
+                    "/home/pi/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
+                    "/home/pi/.platformio/packages/framework-arduino-avr/cores/arduino",
+                    "/home/pi/.platformio/packages/framework-arduino-avr/variants/micro",
+                    "/home/pi/flightcomputer/local/.pio/libdeps/micro/Adafruit BusIO",
+                    "/home/pi/flightcomputer/local/.pio/libdeps/micro/Adafruit ICM20X",
+                    "/home/pi/flightcomputer/local/.pio/libdeps/micro/Adafruit Unified Sensor",
+                    "/home/pi/flightcomputer/local/.pio/libdeps/micro/MS5611",
+                    "/home/pi/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
+                    "/home/pi/.platformio/packages/framework-arduino-avr/libraries/HID/src",
+                    "/home/pi/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
+                    "/home/pi/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
+                    ""
+                ]
+            },
+            "defines": [
+                "PLATFORMIO=50204",
+                "ARDUINO_AVR_MICRO",
+                "F_CPU=16000000L",
+                "ARDUINO_ARCH_AVR",
+                "ARDUINO=10808",
+                "USB_VID=0x2341",
+                "USB_PID=0x8037",
+                "USB_PRODUCT=\"Arduino Micro\"",
+                "USB_MANUFACTURER=\"Arduino\"",
+                "__AVR_ATmega32U4__",
+                ""
+            ],
+            "cStandard": "c11",
+            "cppStandard": "c++11",
+            "compilerPath": "/home/pi/.platformio/packages/toolchain-atmelavr/bin/avr-gcc",
+            "compilerArgs": [
+                "-mmcu=atmega32u4",
+                ""
+            ]
+        }
+    ],
+    "version": 4
+}

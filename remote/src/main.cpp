@@ -11,8 +11,8 @@
 #include <Adafruit_Sensor.h> //Apache Liscence, Adafruit
 //Radio interfacing
 #include <RH_RF95.h> //GPL Liscence, AirSpayce Ltd.
-#include <RHEncryptedDriver.h> //security
-#include <Speck.h>
+#include <RHEncryptedDriver.h> //security driver
+#include <Speck.h> //encryption
 //project specific headers
 #include "../include/megapins.h" //pin table
 #include "../include/addr.h" //i2c addresses
@@ -21,39 +21,64 @@
 #include "../params.h" //flight parameter file
 #include "ansicodes.hpp" //ANSI terminal control codes
 #define USBBAUD 115200
-//======== Functions and structs
+////////////////FUNCTIONS////////////////
+
 //======== Debug functions
 #if DEBUG == 1
 #endif
-//======== Objects and constants
-MS5611 ms(0x77);
+////////////////RADIO OBJS////////////////
 RH_RF95 lora(rf_cs, rf_irq); //init of rfm95w
-//RHEncryptedDriver driver(lora,) //decide on encryption algorithim
+Speck cipher;
+RHEncryptedDriver driver(lora,cipher);
+const int msgLen = 256;
+char msg[msgLen] = "";
+////////////////SENSOR OBJS////////////////
+MS5611 ms(0x77);
 Adafruit_ICM20649 icm;
 uint16_t measurement_delay_us = measurementDel;
+
+////////////////IMU CALC VARS////////////////
 float imudel_s = 0.065535;
 v3 lastacc, lastvel, pos, vel, acc = 0;
 float p0, t0, alt, p, temp = 0;
 //======== Application loop
 void setup() {
+  Wire.begin(); //start i2c
   #if DEBUG == 1
   Serial.begin(USBBAUD);
   #endif
-  Wire.begin(); //start i2c
-  //IMU Setup
+  ////////////////IMU SETUP////////////////
   icm.begin_I2C(ADDR::ICM); //without this the chip wont start. lazy bastard
   icm.setAccelRange(ICM20649_ACCEL_RANGE_30_G); //set to 30G range
   icm.setGyroRange(ICM20649_GYRO_RANGE_2000_DPS); //2000 deg/sec range
-  //Lora init
-  // Use code from raspi desktop "rf95_client"
 
-  bool r = lora.init(); //start rfm95w
-  //Barometer Setup & initial readings
+  ////////////////LORWAN CONFIG//////////////// 
+  /* This rather verbose method of resetting the radio comes from
+  https://forum.arduino.cc/t/radiohead-library-and-rfm95-weird-init-issues/389054/3
+  and was implemented here to combat some issues with the RH_RF::init().
+  Turned out that the enable pin (EN) could not be connected to ground.
+  Rather than remove this code, it was left here because there is no
+  such thing as being too careful.
+  */
+  pinMode(4,OUTPUT);
+  digitalWrite(4,LOW);
+  delayMicroseconds(100);
+  pinMode(4,INPUT);
+  #if DEBUG==1
+  Serial.println("LORA Reset");
+  #endif
+  delayMicroseconds(100);
+  while(!lora.init()){
+    delay(100);
+  }
+  lora.setFrequency(freq); //freq from params.h
+  lora.setTxPower(power); //power from params.h
+
+  ////////////////BAROMETER SETUP////////////////
   bool b = ms.begin(); //start barometer
   if (b == true){
     float *Psum, *Tsum;
     for (int i=0; i<=averageCycles; i++){
-      //take 10 readings from barometer/altimiter, average, and set gloabal variables
       ms.read(); //get new data
       *Psum += ms.getPressure();
       *Tsum += ms.getTemperature();
@@ -64,23 +89,24 @@ void setup() {
     delete Psum;
     delete Tsum; //free memory
   }
-  //MISC Setup
+
+  ////////////////MISCELLANEOUS////////////////
   pinMode(LED_BUILTIN, OUTPUT);
   #if DEBUG == 1
   Serial.println(b ? "alt ok" : "alt fail");
-  Serial.println(r ? "lora ok" : "lora fail");
+  //Serial.println(r ? "lora ok" : "lora fail");
   #endif
 }
 void loop() {
   digitalWrite(LED_BUILTIN, HIGH);
   //BAROMETER
   int result = ms.read();
-
   if (result == 0){
     p=ms.getPressure();
     temp=ms.getTemperature();
     alt = barometric(p,p0,temp);
   }
+  sprintf(msg,"%f", p);
 
   //IMU
   sensors_event_t accel, gyro, temp;
@@ -89,7 +115,11 @@ void loop() {
   vel = integrate(lastacc,acc,imudel_s);
   lastacc = acc;
   lastvel = vel;
-
+  
+  //Transmit and recive
+  uint8_t data[msgLen+1] = {0}; //allow extra charachter for terminator?
+  for(uint8_t i = 0; i<= msgLen; i++) data[i] = (uint8_t)msg[i]; //convert each char of msg to uint8_t
+  driver.send(data,sizeof(data));
 
   #if DEBUG == 1
   #if DEBUGALT == 1

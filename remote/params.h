@@ -31,9 +31,12 @@ const float ccstBar = 0;
 const float ccstTem = 0;
 
 //LoRaWAN CONFIGURATION CONSTANTS
-const char SelfIp[16] = "255.255.255.255";
-const char TargetIp[16] = "255.255.255.255";
-const int freq = 915;//Mhz
+/* The key must be the same between the server (here) and the client.
+The frequency must also be the same.
+*/
+const char key[16] = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}; 
+const float freq = 915;//Mhz
+const int power = 13; //range from 1-23
 
 //DATA COLLECTION PARAMETERS
 const int measurementDel = 65535;
