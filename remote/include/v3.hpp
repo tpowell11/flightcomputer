@@ -19,11 +19,15 @@ struct v3 {
     y=v;
     z=v;
   }
+  /*
+  This template declaration will ONLY work for sensors_event_t
+  from Adafruit's sensor libraries.
+  */
   template <typename t>
   v3 (t v){
-    x=v.x;
-    y=v.y;
-    z=v.z;
+    x=v.acceleration.x;
+    y=v.acceleration.y;
+    z=v.acceleration.z;
   }
   String to_str(String unit){ //! using adafruit's string library, not std::
     String *r;
@@ -88,4 +92,3 @@ v3 integrate(v3 a, v3 b, float dt){
   r.z = a.z+(.5*dt*(b.z-a.z));
   return r;
 }
-

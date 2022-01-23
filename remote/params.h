@@ -8,6 +8,7 @@ Build: Platformio
 #define DEBUG 1
 #define DEBUGALT 1
 #define DEBUGIMU 1
+#define DEBUGLORA 1
 ///////////////////////////////////////////////////////////
 //Deployment & general run params
 

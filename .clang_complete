@@ -1,11 +1,11 @@
--IC:/Users/Tom Powell/Documents/GitHub/flightcomputer/include
--IC:/Users/Tom Powell/Documents/GitHub/flightcomputer/src
--IC:/Users/Tom Powell/Documents/GitHub/flightcomputer/.pio/libdeps/megaatmega2560/RadioHead
--IC:/Users/Tom Powell/Documents/GitHub/flightcomputer/.pio/libdeps/megaatmega2560/Adafruit ICM20X
--IC:/Users/Tom Powell/Documents/GitHub/flightcomputer/.pio/libdeps/megaatmega2560/Adafruit Unified Sensor
--IC:/Users/Tom Powell/Documents/GitHub/flightcomputer/.pio/libdeps/megaatmega2560/Adafruit BusIO
+-IC:/Users/Tom Powell/Documents/GitHub/rocket/flightcomputer/include
+-IC:/Users/Tom Powell/Documents/GitHub/rocket/flightcomputer/src
+-IC:/Users/Tom Powell/Documents/GitHub/rocket/flightcomputer/.pio/libdeps/megaatmega2560/RadioHead
+-IC:/Users/Tom Powell/Documents/GitHub/rocket/flightcomputer/.pio/libdeps/megaatmega2560/Adafruit ICM20X
+-IC:/Users/Tom Powell/Documents/GitHub/rocket/flightcomputer/.pio/libdeps/megaatmega2560/Adafruit Unified Sensor
+-IC:/Users/Tom Powell/Documents/GitHub/rocket/flightcomputer/.pio/libdeps/megaatmega2560/Adafruit BusIO
 -IC:/Users/Tom Powell/.platformio/packages/framework-arduino-avr/libraries/SPI/src
--IC:/Users/Tom Powell/Documents/GitHub/flightcomputer/.pio/libdeps/megaatmega2560/MS5611
+-IC:/Users/Tom Powell/Documents/GitHub/rocket/flightcomputer/.pio/libdeps/megaatmega2560/MS5611
 -IC:/Users/Tom Powell/.platformio/packages/framework-arduino-avr/libraries/Wire/src
 -IC:/Users/Tom Powell/.platformio/packages/framework-arduino-avr/cores/arduino
 -IC:/Users/Tom Powell/.platformio/packages/framework-arduino-avr/variants/mega

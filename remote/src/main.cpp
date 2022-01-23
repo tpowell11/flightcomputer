@@ -1,12 +1,19 @@
 //written for the Arduino uno or compatible
+// Arduino default libraries
 #include <Arduino.h> //GNU LGPL Arduino
 #include <Wire.h> //GNU LGPL Arduino
+#include <SPI.h> //needed for lorawan
+//Altimiter Interface
 #include <MS5611.h> //MIT License, Rob Tillaart
+//Adafruit Sensor
 #include <Adafruit_ICM20X.h> //BSD Liscence, Adafruit
 #include <Adafruit_ICM20649.h> //BSD Liscence, Adafruit
 #include <Adafruit_Sensor.h> //Apache Liscence, Adafruit
-#include <SPI.h> //needed for lorawan 
-#include <RH_RF95.h> //GPL Liscence, AirSpayce Ltd. 
+//Radio interfacing
+#include <RH_RF95.h> //GPL Liscence, AirSpayce Ltd.
+#include <RHEncryptedDriver.h> //security
+#include <Speck.h>
+//project specific headers
 #include "../include/megapins.h" //pin table
 #include "../include/addr.h" //i2c addresses
 #include "../include/v3.hpp" //vector library
@@ -21,6 +28,7 @@
 //======== Objects and constants
 MS5611 ms(0x77);
 RH_RF95 lora(rf_cs, rf_irq); //init of rfm95w
+//RHEncryptedDriver driver(lora,) //decide on encryption algorithim
 Adafruit_ICM20649 icm;
 uint16_t measurement_delay_us = measurementDel;
 float imudel_s = 0.065535;
@@ -36,14 +44,12 @@ void setup() {
   icm.begin_I2C(ADDR::ICM); //without this the chip wont start. lazy bastard
   icm.setAccelRange(ICM20649_ACCEL_RANGE_30_G); //set to 30G range
   icm.setGyroRange(ICM20649_GYRO_RANGE_2000_DPS); //2000 deg/sec range
+  //Lora init
+  // Use code from raspi desktop "rf95_client"
 
+  bool r = lora.init(); //start rfm95w
   //Barometer Setup & initial readings
   bool b = ms.begin(); //start barometer
-  bool r = lora.init(); //start rfm95w
-  #if DEBUG == 1 
-  Serial.println(b ? "alt ok" : "alt fail");
-  Serial.println(r ? "lora ok" : "lora fail");
-  #endif
   if (b == true){
     float *Psum, *Tsum;
     for (int i=0; i<=averageCycles; i++){
@@ -55,10 +61,15 @@ void setup() {
     //average
     p0 = *Psum/averageCycles;
     t0 = *Tsum/averageCycles;
-    delete Psum, Tsum; //free memory
+    delete Psum;
+    delete Tsum; //free memory
   }
   //MISC Setup
-  pinMode(LED_BUILTIN, OUTPUT); 
+  pinMode(LED_BUILTIN, OUTPUT);
+  #if DEBUG == 1
+  Serial.println(b ? "alt ok" : "alt fail");
+  Serial.println(r ? "lora ok" : "lora fail");
+  #endif
 }
 void loop() {
   digitalWrite(LED_BUILTIN, HIGH);
@@ -68,7 +79,7 @@ void loop() {
   if (result == 0){
     p=ms.getPressure();
     temp=ms.getTemperature();
-    alt = barometric(p,p0,temp); 
+    alt = barometric(p,p0,temp);
   }
 
   //IMU
@@ -103,4 +114,3 @@ void loop() {
   #endif
   digitalWrite(LED_BUILTIN, LOW);
 }
-
