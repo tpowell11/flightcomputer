@@ -34,7 +34,7 @@ const float ccstTem = 0;
 /* The key must be the same between the server (here) and the client.
 The frequency must also be the same.
 */
-const char key[16] = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}; 
+const unsigned char key[16] = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}; 
 const float freq = 915;//Mhz
 const int power = 13; //range from 1-23
 

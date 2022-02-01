@@ -19,8 +19,8 @@
 #include "../include/v3.hpp" //vector library
 #include "../include/altitude.h" //pressure -> altitude conversion
 #include "../params.h" //flight parameter file
-#include "ansicodes.hpp" //ANSI terminal control codes
-#define USBBAUD 115200
+
+#define USBBAUD 9600
 ////////////////FUNCTIONS////////////////
 
 //======== Debug functions
@@ -31,7 +31,7 @@ RH_RF95 lora(rf_cs, rf_irq); //init of rfm95w
 Speck cipher;
 RHEncryptedDriver driver(lora,cipher);
 const int msgLen = 256;
-char msg[msgLen] = "";
+char msg[msgLen] = "test";
 ////////////////SENSOR OBJS////////////////
 MS5611 ms(0x77);
 Adafruit_ICM20649 icm;
@@ -40,19 +40,22 @@ uint16_t measurement_delay_us = measurementDel;
 ////////////////IMU CALC VARS////////////////
 float imudel_s = 0.065535;
 v3 lastacc, lastvel, pos, vel, acc = 0;
-float p0, t0, alt, p, temp = 0;
+float p0, t0, alt, p, t = 0;
+char tempMsg[msgLen];
 //======== Application loop
 void setup() {
   Wire.begin(); //start i2c
   #if DEBUG == 1
   Serial.begin(USBBAUD);
+  Serial.println("Began Init");
+  //while(!Serial) ; //wait for serial start
   #endif
   ////////////////IMU SETUP////////////////
   icm.begin_I2C(ADDR::ICM); //without this the chip wont start. lazy bastard
   icm.setAccelRange(ICM20649_ACCEL_RANGE_30_G); //set to 30G range
   icm.setGyroRange(ICM20649_GYRO_RANGE_2000_DPS); //2000 deg/sec range
 
-  ////////////////LORWAN CONFIG//////////////// 
+  ////////////////LORWAN CONFIG////////////////
   /* This rather verbose method of resetting the radio comes from
   https://forum.arduino.cc/t/radiohead-library-and-rfm95-weird-init-issues/389054/3
   and was implemented here to combat some issues with the RH_RF::init().
@@ -70,24 +73,31 @@ void setup() {
   delayMicroseconds(100);
   while(!lora.init()){
     delay(100);
+    Serial.println("LORA has not initialized");
   }
+  Serial.println("LORA Initialized, Coninuing");
   lora.setFrequency(freq); //freq from params.h
   lora.setTxPower(power); //power from params.h
-
+  cipher.setKey(key,16); //key from params.h
   ////////////////BAROMETER SETUP////////////////
   bool b = ms.begin(); //start barometer
+  //! Why does this code cause it to hang?
   if (b == true){
-    float *Psum, *Tsum;
+    #if DEBUG == 1
+    Serial.println("Getting Atmospheric Data");
+    #endif
+    float Psum, Tsum;
     for (int i=0; i<=averageCycles; i++){
       ms.read(); //get new data
-      *Psum += ms.getPressure();
-      *Tsum += ms.getTemperature();
+      Psum += ms.getPressure();
+      Tsum += ms.getTemperature();
+      Serial.println("r");
     }
     //average
-    p0 = *Psum/averageCycles;
-    t0 = *Tsum/averageCycles;
-    delete Psum;
-    delete Tsum; //free memory
+    p0 = Psum/averageCycles;
+    t0 = Tsum/averageCycles;
+    //delete Psum;
+    //delete Tsum; //free memory
   }
 
   ////////////////MISCELLANEOUS////////////////
@@ -103,24 +113,31 @@ void loop() {
   int result = ms.read();
   if (result == 0){
     p=ms.getPressure();
-    temp=ms.getTemperature();
-    alt = barometric(p,p0,temp);
+    t=ms.getTemperature();
+    alt = barometric(p,p0,t);
   }
-  sprintf(msg,"%f", p);
-
+  //sprintf(tempMsg,"%f", p);
+  //strcat(tempMsg, msg);
   //IMU
   sensors_event_t accel, gyro, temp;
   icm.getEvent(&accel, &gyro, &temp);
   acc = v3(accel);
   vel = integrate(lastacc,acc,imudel_s);
+  pos = integrate(lastvel, vel,imudel_s);
   lastacc = acc;
   lastvel = vel;
-  
-  //Transmit and recive
-  uint8_t data[msgLen+1] = {0}; //allow extra charachter for terminator?
-  for(uint8_t i = 0; i<= msgLen; i++) data[i] = (uint8_t)msg[i]; //convert each char of msg to uint8_t
-  driver.send(data,sizeof(data));
 
+  //Transmit and receive
+  uint8_t data[msgLen+1] = {'h','e','l','l','o'}; //allow extra character for terminator?
+  Serial.println((char*)&data);
+  //uint8_t data[8]
+  //lora.send(data,sizeof(data));
+  //lora.waitPacketSent();
+  //for(uint8_t i = 0; i<= msgLen; i++) data[i] = (uint8_t)msg[i]; //convert each char of msg to uint8_t
+  //driver.send(data,sizeof(data)/sizeof(data[0]));
+  driver.send(data, sizeof(data));
+  driver.waitPacketSent();
+  delay(10);
   #if DEBUG == 1
   #if DEBUGALT == 1
   if (result != MS5611_READ_OK)
@@ -131,9 +148,9 @@ void loop() {
   else
   {
     Serial.print("T:");
-    Serial.print(ms.getTemperature(), 2);
+    Serial.print(t);
     Serial.print("\nP:");
-    Serial.println(ms.getPressure(), 2);
+    Serial.println(p);
   }
   #endif
   #if DEBUGIMU == 1
