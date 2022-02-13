@@ -81,7 +81,6 @@ void setup() {
   cipher.setKey(key,16); //key from params.h
   ////////////////BAROMETER SETUP////////////////
   bool b = ms.begin(); //start barometer
-  //! Why does this code cause it to hang?
   if (b == true){
     #if DEBUG == 1
     Serial.println("Getting Atmospheric Data");
@@ -91,7 +90,6 @@ void setup() {
       ms.read(); //get new data
       Psum += ms.getPressure();
       Tsum += ms.getTemperature();
-      Serial.println("r");
     }
     //average
     p0 = Psum/averageCycles;
@@ -128,14 +126,13 @@ void loop() {
   lastvel = vel;
 
   //Transmit and receive
-  uint8_t data[msgLen+1] = {'h','e','l','l','o'}; //allow extra character for terminator?
-  Serial.println((char*)&data);
-  //uint8_t data[8]
-  //lora.send(data,sizeof(data));
-  //lora.waitPacketSent();
-  //for(uint8_t i = 0; i<= msgLen; i++) data[i] = (uint8_t)msg[i]; //convert each char of msg to uint8_t
-  //driver.send(data,sizeof(data)/sizeof(data[0]));
-  driver.send(data, sizeof(data));
+  uint8_t data[msgLen+1] = {'0','1','2','3','4'}; //allow extra character for terminator?
+  driver.send(data, (msgLen+1)*8);
+  /* sizeof returns the number of BYTES of a type, not the number of BITS.
+  not entirely sure why that matters though.
+  sizeof(char) = 1 on this platform, apparently. 
+  * Refactored to use msgLen for maintainability 
+  */
   driver.waitPacketSent();
   delay(10);
   #if DEBUG == 1
