@@ -13,6 +13,7 @@
 #include <RH_RF95.h> //GPL Liscence, AirSpayce Ltd.
 #include <RHEncryptedDriver.h> //security driver
 #include <Speck.h> //encryption
+#include <ArduinoJson.h>
 //project specific headers
 #include "../include/megapins.h" //pin table
 #include "../include/addr.h" //i2c addresses
@@ -30,8 +31,11 @@
 RH_RF95 lora(rf_cs, rf_irq); //init of rfm95w
 Speck cipher;
 RHEncryptedDriver driver(lora,cipher);
-const int msgLen = 256;
-char msg[msgLen] = "test";
+const int msgLen = 251;
+uint8_t data[msgLen+1];
+uint8_t rbuf[RH_RF95_MAX_MESSAGE_LEN];
+uint8_t rbuf_s;
+StaticJsonDocument<msgLen> doc;
 ////////////////SENSOR OBJS////////////////
 MS5611 ms(0x77);
 Adafruit_ICM20649 icm;
@@ -78,6 +82,7 @@ void setup() {
   Serial.println("LORA Initialized, Coninuing");
   lora.setFrequency(freq); //freq from params.h
   lora.setTxPower(power); //power from params.h
+  lora.setModemConfig(RH_RF95::ModemConfigChoice::Bw125Cr48Sf4096);
   cipher.setKey(key,16); //key from params.h
   ////////////////BAROMETER SETUP////////////////
   bool b = ms.begin(); //start barometer
@@ -124,17 +129,26 @@ void loop() {
   pos = integrate(lastvel, vel,imudel_s);
   lastacc = acc;
   lastvel = vel;
-
+  doc["ax"] = acc.x;
+  doc["ay"] = acc.y;
+  doc["az"] = acc.z;
   //Transmit and receive
-  uint8_t data[msgLen+1] = {'0','1','2','3','4'}; //allow extra character for terminator?
-  driver.send(data, (msgLen+1)*8);
+  serializeJson(doc,data);
+  for(auto i : data){
+    Serial.print(i);
+    Serial.print(",");
+  }
+  Serial.println((char*)data);
+  Serial.println();
+  driver.send(data,256);
   /* sizeof returns the number of BYTES of a type, not the number of BITS.
   not entirely sure why that matters though.
   sizeof(char) = 1 on this platform, apparently. 
   * Refactored to use msgLen for maintainability 
   */
   driver.waitPacketSent();
-  delay(10);
+  driver.waitCAD();
+  delay(1000);
   #if DEBUG == 1
   #if DEBUGALT == 1
   if (result != MS5611_READ_OK)
