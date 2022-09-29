@@ -1,0 +1,580 @@
+%!PS-Adobe-1.0
+%%DocumentFonts: (atend)
+%%Title: PostScript conversion of main.cpp
+%%Creator: deckmate 1.2 (http://www.unifoundry.com/deckmate/)
+%%Pages: (atend)
+%BoundingBox: 0 0 546 750
+%%EndComments
+%%BeginProlog
+% linestyle -- set document line defaults
+/linestyle { 0.5 setlinewidth 2 setlinecap } bind def
+% <width> stripe -- draw a 30 pt tall color stripe from upper left-hand corner
+/stripe {
+   dup 0 rlineto 0 -30 rlineto neg 0 rlineto closepath fill
+} bind def
+% stripes -- draw color stripe bars on new page
+/stripes {
+   gsave
+   % Draw ten 3-line color stripes on new page from top to bottom
+   0.7500 1.0000 0.7500 setrgbcolor
+   66 658 moveto 480 stripe
+   66 598 moveto 480 stripe
+   66 538 moveto 480 stripe
+   66 478 moveto 480 stripe
+   66 418 moveto 480 stripe
+   66 358 moveto 480 stripe
+   66 298 moveto 480 stripe
+   66 238 moveto 480 stripe
+   66 178 moveto 480 stripe
+   66 118 moveto 480 stripe
+   grestore  % Restore previous color
+} bind def
+% usertabs -- draw dashed gray lines at specified columns
+/usertabs {
+} bind def
+% pageborders -- draw page borders & column legend
+/pageborders { 
+   % Draw outer border around listing.
+   66 718 moveto
+      480 0 rlineto 0 -660 rlineto -480 0 rlineto 0 660 rlineto closepath
+   stroke
+   % Draw border on top of column numbers.
+   66 718 moveto
+      0 22 rlineto 480 0 rlineto 0 -22 rlineto closepath
+   stroke
+   % Draw column numbers.
+   /Courier findfont 10 scalefont setfont
+   66 730 moveto
+   (00000000011111111112222222222333333333344444444445555555555666666666677777777778) show
+   66 720 moveto
+   (12345678901234567890123456789012345678901234567890123456789012345678901234567890) show
+} bind def
+% langtemplate -- form template for supported programming languages
+/langtemplate {
+} bind def
+% listing -- define font for rendering program listings
+/listing { /Courier findfont 10 scalefont setfont } bind def
+/bold { /Courier-Bold findfont 10 scalefont setfont } bind def
+% special -- define font for rendering Symbol glyphs
+/special { /Symbol findfont 10 scalefont setfont } bind def
+% <string> bsp -- backspace to start of <string>
+/bsp { stringwidth pop neg 0 rmoveto } bind def
+% <(Page x)> footer -- draw footer string 1/2 inch up from page bottom
+/footer {
+   gsave
+   /Courier findfont 12 scalefont setfont
+   dup stringwidth pop
+   -2 div 306 add 36 moveto show
+   grestore
+} bind def
+% pageframe -- complete template to execute at start of each new page
+/pageframe {
+   linestyle stripes usertabs pageborders langtemplate listing
+} def
+%%EndProlog
+%%Page: 1 1
+pageframe
+66 710 moveto
+(\/\/written for the Arduino uno or compatible) show
+66 700 moveto
+(\/\/ Arduino default libraries) show
+66 690 moveto
+(#include <Arduino.h> \/\/GNU LGPL Arduino) show
+66 680 moveto
+(#include <Wire.h> \/\/GNU LGPL Arduino) show
+66 670 moveto
+(#include <SPI.h> \/\/needed for lorawan) show
+66 660 moveto
+(\/\/Altimiter Interface) show
+66 650 moveto
+(#include <MS5611.h> \/\/MIT License, Rob Tillaart) show
+66 640 moveto
+(\/\/Adafruit Sensor) show
+66 630 moveto
+(#include <Adafruit_ICM20X.h> \/\/BSD Liscence, Adafruit) show
+66 620 moveto
+(#include <Adafruit_ICM20649.h> \/\/BSD Liscence, Adafruit) show
+66 610 moveto
+(#include <Adafruit_Sensor.h> \/\/Apache Liscence, Adafruit) show
+66 600 moveto
+(\/\/Radio interfacing) show
+66 590 moveto
+(#include <RH_RF95.h> \/\/GPL Liscence, AirSpayce Ltd.) show
+66 580 moveto
+(#include <RHEncryptedDriver.h> \/\/security driver) show
+66 570 moveto
+(#include <Speck.h> \/\/encryption) show
+66 560 moveto
+(#include <ArduinoJson.h>) show
+66 550 moveto
+(\/\/GPS) show
+66 540 moveto
+(#include <SparkFun_u-blox_GNSS_Arduino_Library.h>) show
+66 530 moveto
+(\/\/project specific headers) show
+66 520 moveto
+(#include "..\/include\/megapins.h" \/\/pin table) show
+66 510 moveto
+(#include "..\/include\/addr.h" \/\/i2c addresses) show
+66 500 moveto
+(#include "..\/include\/v3.hpp" \/\/vector library) show
+66 490 moveto
+(#include "..\/include\/altitude.h" \/\/pressure -> altitude conversion) show
+66 480 moveto
+(#include "..\/params.h" \/\/flight parameter file) show
+66 470 moveto
+(#include "..\/include\/err.h" \/\/error codes) show
+66 460 moveto
+(#include "..\/include\/utility.hpp" \/\/util fxns) show
+66 440 moveto
+(#define USBBAUD 9600) show
+66 430 moveto
+(\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/FUNCTIONS\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/) show
+66 410 moveto
+(\/\/======== Debug functions) show
+66 400 moveto
+(#if DEBUG == 1) show
+66 390 moveto
+(#endif) show
+66 380 moveto
+(\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/CONTROL VARS\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/) show
+66 370 moveto
+(int doMode = 0;) show
+66 360 moveto
+(\/*) show
+66 350 moveto
+(This allows for switching the operation preformed by the FC) show
+66 340 moveto
+(*\/) show
+66 330 moveto
+(bool hasNotLaunched = true;) show
+66 320 moveto
+(\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/GPS OBJS\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/) show
+66 310 moveto
+(SFE_UBLOX_GNSS GPS;) show
+66 300 moveto
+(uint32_t timeUNX;) show
+66 290 moveto
+(long latitude;) show
+66 280 moveto
+(long longitude;) show
+66 270 moveto
+(long gpsAlt;) show
+66 260 moveto
+(byte SIV;) show
+66 250 moveto
+(\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/RADIO OBJS & FXNS\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/) show
+66 240 moveto
+(RH_RF95 lora\(rf_cs, rf_irq\); \/\/init of rfm95w) show
+66 230 moveto
+(Speck cipher;) show
+66 220 moveto
+(RHEncryptedDriver driver\(lora,cipher\);) show
+66 210 moveto
+(const int msgLen = 251;) show
+66 200 moveto
+(uint8_t data[msgLen+1];) show
+66 190 moveto
+(uint8_t rbuf[RH_RF95_MAX_MESSAGE_LEN];) show
+66 180 moveto
+(uint8_t rbuf_s;) show
+66 170 moveto
+(StaticJsonDocument<msgLen> doc;) show
+66 160 moveto
+(void forceSendError\(uint8_t code\) {) show
+66 150 moveto
+(  doc.clear\(\);) show
+66 140 moveto
+(  doc["e"] = code;) show
+66 130 moveto
+(  serializeJson\(doc,data\);) show
+66 120 moveto
+(  Serial.println\(\(char*\)data\);) show
+66 110 moveto
+(  Serial.println\(\);) show
+66 100 moveto
+(  driver.send\(data,256\);) show
+66 90 moveto
+(  #if DEBUG == 1) show
+66 80 moveto
+(  Serial.print\("ERROR: "\);) show
+66 70 moveto
+(  Serial.println\(code\);) show
+66 60 moveto
+(  #endif) show
+(Page 1) footer
+showpage
+%%Page: 2 2
+pageframe
+66 710 moveto
+(}) show
+66 700 moveto
+(void sendMessage\(StaticJsonDocument<msgLen> Document\){) show
+66 690 moveto
+(  uint8_t Dta[msgLen+1];) show
+66 680 moveto
+(  serializeJson\(Document,Dta\);) show
+66 670 moveto
+(  #if DEBUG == 1) show
+66 660 moveto
+(  Serial.println\(\(char*\)Dta\);) show
+66 650 moveto
+(  Serial.println\(\);) show
+66 640 moveto
+(  #endif) show
+66 630 moveto
+(  driver.send\(Dta ,255\);) show
+66 620 moveto
+(  Document.clear\(\);) show
+66 610 moveto
+(}) show
+66 600 moveto
+(\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/SENSOR OBJS\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/) show
+66 590 moveto
+(MS5611 bar1\(BAR1_AD\);) show
+66 580 moveto
+(MS5611 bar2\(BAR2_AD\);) show
+66 570 moveto
+(Adafruit_ICM20649 icm;) show
+66 560 moveto
+(uint16_t measurement_delay_us = measurementDel;) show
+66 550 moveto
+(void readBarometers\(float* pressure, float* temperature, float* altitude, float*) show
+66 540 moveto
+(  float p1, t1, p2, t2, alt1, alt2;) show
+66 530 moveto
+(  if\(bar1.read\(\) == 0\){) show
+66 520 moveto
+(    p1=bar1.getPressure\(\);) show
+66 510 moveto
+(    t1=bar1.getTemperature\(\);) show
+66 500 moveto
+(    alt1=barometric\(p1,*p_orig,t2\);) show
+66 490 moveto
+(    if \(isBetween\(p1, 10, 1200\) == false || isBetween\(t1,-40, 85\) == false\) {) show
+66 480 moveto
+(      forceSendError\(ERR_BAR1_RANGE\);) show
+66 470 moveto
+(    }) show
+66 460 moveto
+(  } else {) show
+66 450 moveto
+(    forceSendError\(ERR_BAR1_COMM\);) show
+66 440 moveto
+(  }) show
+66 430 moveto
+(  if\(bar2.read\(\) == 0\){) show
+66 420 moveto
+(    p2=bar2.getPressure\(\);) show
+66 410 moveto
+(    t2=bar2.getTemperature\(\);) show
+66 400 moveto
+(    alt2=barometric\(p2,*p_orig,t2\);) show
+66 390 moveto
+(    if \(isBetween\(p2, 10, 1200\) == false || isBetween\(t2,-40, 85\) == false\) {) show
+66 380 moveto
+(      forceSendError\(ERR_BAR2_RANGE\);) show
+66 370 moveto
+(    }) show
+66 360 moveto
+(  } else {) show
+66 350 moveto
+(    forceSendError\(ERR_BAR2_COMM\);) show
+66 340 moveto
+(  }) show
+66 330 moveto
+(  \/\/averaging and assingment) show
+66 320 moveto
+(  *pressure = \(p1+p2\)\/2;) show
+66 310 moveto
+(  *temperature = \(t1+t2\)\/2;) show
+66 300 moveto
+(  *altitude = \(alt1+alt2\)\/2;) show
+66 290 moveto
+(}) show
+66 270 moveto
+(\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/IMU CALC VARS\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/) show
+66 260 moveto
+(float imudel_s = 0.065535;) show
+66 250 moveto
+(v3 lastacc, lastvel, pos, vel, acc = 0;) show
+66 240 moveto
+(float p0, t0, alt0, alt, p, t = 0;) show
+66 230 moveto
+(char tempMsg[msgLen];) show
+66 220 moveto
+(\/\/======== Application loop) show
+66 210 moveto
+(void setup\(\) {) show
+66 200 moveto
+(  Wire.begin\(\); \/\/start i2c) show
+66 190 moveto
+(  #if DEBUG == 1) show
+66 180 moveto
+(  Serial.begin\(USBBAUD\);) show
+66 170 moveto
+(  Serial.println\("Began Init"\);) show
+66 160 moveto
+(  \/\/while\(!Serial\) ; \/\/wait for serial start) show
+66 150 moveto
+(  #endif) show
+66 140 moveto
+(  \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/IMU SETUP\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/) show
+66 130 moveto
+(  icm.begin_I2C\(ADDR::ICM\); \/\/without this the chip wont start. lazy bastard) show
+66 120 moveto
+(  icm.setAccelRange\(ICM20649_ACCEL_RANGE_30_G\); \/\/set to 30G range) show
+66 110 moveto
+(  icm.setGyroRange\(ICM20649_GYRO_RANGE_2000_DPS\); \/\/2000 deg\/sec range) show
+66 90 moveto
+(  \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/LORWAN CONFIG\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/) show
+66 80 moveto
+(  \/* This rather verbose method of resetting the radio comes from) show
+66 70 moveto
+(  https:\/\/forum.arduino.cc\/t\/radiohead-library-and-rfm95-weird-init-issues\/38905) show
+66 60 moveto
+(  and was implemented here to combat some issues with the RH_RF::init\(\).) show
+(Page 2) footer
+showpage
+%%Page: 3 3
+pageframe
+66 710 moveto
+(  Turned out that the enable pin \(EN\) could not be connected to ground.) show
+66 700 moveto
+(  Rather than remove this code, it was left here because there is no) show
+66 690 moveto
+(  such thing as being too careful.) show
+66 680 moveto
+(  *\/) show
+66 670 moveto
+(  pinMode\(4,OUTPUT\);) show
+66 660 moveto
+(  digitalWrite\(4,LOW\);) show
+66 650 moveto
+(  delayMicroseconds\(100\);) show
+66 640 moveto
+(  pinMode\(4,INPUT\);) show
+66 630 moveto
+(  #if DEBUG==1) show
+66 620 moveto
+(  Serial.println\("LORA Reset"\);) show
+66 610 moveto
+(  #endif) show
+66 600 moveto
+(  delayMicroseconds\(100\);) show
+66 590 moveto
+(  while\(!lora.init\(\)\){) show
+66 580 moveto
+(    delay\(100\);) show
+66 570 moveto
+(    Serial.println\("LORA has not initialized"\);) show
+66 560 moveto
+(  }) show
+66 550 moveto
+(  Serial.println\("LORA Initialized, Coninuing"\);) show
+66 540 moveto
+(  lora.setFrequency\(freq\); \/\/freq from params.h) show
+66 530 moveto
+(  lora.setTxPower\(power\); \/\/power from params.h) show
+66 520 moveto
+(  lora.setModemConfig\(RH_RF95::ModemConfigChoice::Bw125Cr48Sf4096\);) show
+66 510 moveto
+(  cipher.setKey\(key,16\); \/\/key from params.h) show
+66 500 moveto
+(  \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/BAROMETER SETUP\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/) show
+66 490 moveto
+(  bool b1 = bar1.begin\(\); \/\/start barometers) show
+66 480 moveto
+(  bool b2 = bar2.begin\(\);) show
+66 470 moveto
+(  if \(b1 == false\) {forceSendError\(ERR_BAR1_COMM\);}) show
+66 460 moveto
+(  if \(b2 == false\) {forceSendError\(ERR_BAR2_COMM\);}) show
+66 440 moveto
+(  \/\/Average averageCycles of baro readings to set p0, t0, and alt0) show
+66 430 moveto
+(  for\(size_t i = 0 ; i < averageCycles ; i++\) {) show
+66 420 moveto
+(    float *tempP, *tempT, *tempAlt;) show
+66 410 moveto
+(    float *pAcc, *tAcc, *altAcc;) show
+66 400 moveto
+(    readBarometers\(tempP, tempT, tempAlt, &p0\); \/\/read) show
+66 390 moveto
+(    *pAcc += *tempP;\/\/accumulate) show
+66 380 moveto
+(    *tAcc += *tempT;) show
+66 370 moveto
+(    *altAcc += *tempAlt;) show
+66 360 moveto
+(    p0 = *pAcc \/ averageCycles; \/\/average) show
+66 350 moveto
+(    t0 = *tAcc \/ averageCycles;) show
+66 340 moveto
+(    alt0 = *altAcc \/ averageCycles;) show
+66 330 moveto
+(  }) show
+66 320 moveto
+(  \/\/GPS Config) show
+66 310 moveto
+(  bool g = GPS.begin\(\);) show
+66 300 moveto
+(  if\(g == false\){) show
+66 290 moveto
+(    forceSendError\(ERR_GPS_COMM\);) show
+66 280 moveto
+(  }) show
+66 270 moveto
+(  GPS.setI2COutput\(COM_TYPE_UBX\);) show
+66 260 moveto
+(  GPS.saveConfigSelective\(VAL_CFG_SUBSEC_IOPORT\);) show
+66 250 moveto
+(  \/\/INITIALIZATION MESSAGE) show
+66 240 moveto
+(}) show
+66 230 moveto
+(void loop\(\) {) show
+66 220 moveto
+(  if \(hasNotLaunched == true\) {) show
+66 210 moveto
+(    float * lastAlt;) show
+66 200 moveto
+(    while \(1\) {) show
+66 190 moveto
+(      readBarometers\(&p, &t, &alt, &p0\);) show
+66 180 moveto
+(      if \(\(alt - *lastAlt\) > 5\) {) show
+66 170 moveto
+(        hasNotLaunched = false;) show
+66 160 moveto
+(      }) show
+66 150 moveto
+(      *lastAlt = alt;) show
+66 140 moveto
+(    }) show
+66 130 moveto
+(  }) show
+66 120 moveto
+(  \/\/Inertial\/Barometric) show
+66 110 moveto
+(  if \(doMode == 1\){) show
+66 100 moveto
+(    \/\/BAROMETERS) show
+66 90 moveto
+(    readBarometers\(&p, &t, &alt, &p0\);) show
+66 80 moveto
+(    doc["alt"] = alt; \/\/! Add to paper) show
+66 70 moveto
+(    doc["p"] = p;) show
+66 60 moveto
+(    doc["t"] = t;) show
+(Page 3) footer
+showpage
+%%Page: 4 4
+pageframe
+66 700 moveto
+(    \/\/IMU) show
+66 690 moveto
+(    sensors_event_t accel, gyro, temp;) show
+66 680 moveto
+(    icm.getEvent\(&accel, &gyro, &temp\);) show
+66 670 moveto
+(    acc = v3\(accel\);) show
+66 660 moveto
+(    vel = integrate\(lastacc,acc,imudel_s\);) show
+66 650 moveto
+(    pos = integrate\(lastvel, vel,imudel_s\);) show
+66 640 moveto
+(    lastacc = acc;) show
+66 630 moveto
+(    lastvel = vel;) show
+66 620 moveto
+(  }) show
+66 610 moveto
+(  \/\/gps) show
+66 600 moveto
+(  if \(doMode == 2\) {) show
+66 590 moveto
+(    latitude = GPS.getLatitude\(\);) show
+66 580 moveto
+(    longitude = GPS.getLongitude\(\);) show
+66 570 moveto
+(    timeUNX = GPS.getUnixEpoch\(\);) show
+66 560 moveto
+(    gpsAlt = GPS.getAltitudeMSL\(\);) show
+66 550 moveto
+(    doc["unx"] = timeUNX;) show
+66 540 moveto
+(    doc["lat"] = latitude;) show
+66 530 moveto
+(    doc["lon"] = longitude;) show
+66 520 moveto
+(    doc["alt"] = gpsAlt;) show
+66 510 moveto
+(    sendMessage\(doc\);) show
+66 500 moveto
+(  }) show
+66 490 moveto
+(  \/\/\/\/\/\/\/\/ RUN MODE SWITCHING \/\/\/\/\/\/\/\/) show
+66 480 moveto
+(  if\(doMode == 2\) {) show
+66 470 moveto
+(    doMode = 1;) show
+66 460 moveto
+(  } else {) show
+66 450 moveto
+(    doMode += 1;) show
+66 440 moveto
+(  } \/\/*doMode can only be 0 at startup.) show
+66 400 moveto
+(  #if DEBUG == 1) show
+66 390 moveto
+(  #if DEBUGALT == 1) show
+66 380 moveto
+(  if \(0 != MS5611_READ_OK\)) show
+66 370 moveto
+(  {) show
+66 360 moveto
+(    Serial.print\("Error in read: "\);) show
+66 350 moveto
+(    Serial.println\(0\);) show
+66 340 moveto
+(  }) show
+66 330 moveto
+(  else) show
+66 320 moveto
+(  {) show
+66 310 moveto
+(    Serial.print\("T:"\);) show
+66 300 moveto
+(    Serial.print\(t\);) show
+66 290 moveto
+(    Serial.print\("\\nP:"\);) show
+66 280 moveto
+(    Serial.println\(p\);) show
+66 270 moveto
+(  }) show
+66 260 moveto
+(  #endif) show
+66 250 moveto
+(  #if DEBUGIMU == 1) show
+66 240 moveto
+(  acc.to_str\("m\/s2\\n"\);) show
+66 230 moveto
+(  vel.to_str\("m\/s\\n"\);) show
+66 220 moveto
+(  pos.to_str\("m\\n"\);) show
+66 210 moveto
+(  #endif) show
+66 200 moveto
+(  #endif) show
+66 190 moveto
+(  digitalWrite\(LED_BUILTIN, LOW\);) show
+66 180 moveto
+(}) show
+(Page 4) footer
+showpage
+%%Trailer
+%%Pages: 4
+%%DocumentFonts: Courier
+%%EOF

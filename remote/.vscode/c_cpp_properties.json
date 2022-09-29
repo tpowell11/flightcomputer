@@ -10,6 +10,7 @@
             "includePath": [
                 "c:/Users/Tom Powell/Documents/GitHub/rocket/flightcomputer/remote/include",
                 "c:/Users/Tom Powell/Documents/GitHub/rocket/flightcomputer/remote/src",
+                "c:/Users/Tom Powell/Documents/GitHub/rocket/flightcomputer/remote/.pio/libdeps/megaatmega2560/SparkFun u-blox GNSS Arduino Library/src",
                 "c:/Users/Tom Powell/Documents/GitHub/rocket/flightcomputer/remote/.pio/libdeps/megaatmega2560/ArduinoJson/src",
                 "c:/Users/Tom Powell/Documents/GitHub/rocket/flightcomputer/remote/.pio/libdeps/megaatmega2560/CryptoLW/src",
                 "c:/Users/Tom Powell/Documents/GitHub/rocket/flightcomputer/remote/.pio/libdeps/megaatmega2560/RadioHead",
@@ -32,6 +33,7 @@
                 "path": [
                     "c:/Users/Tom Powell/Documents/GitHub/rocket/flightcomputer/remote/include",
                     "c:/Users/Tom Powell/Documents/GitHub/rocket/flightcomputer/remote/src",
+                    "c:/Users/Tom Powell/Documents/GitHub/rocket/flightcomputer/remote/.pio/libdeps/megaatmega2560/SparkFun u-blox GNSS Arduino Library/src",
                     "c:/Users/Tom Powell/Documents/GitHub/rocket/flightcomputer/remote/.pio/libdeps/megaatmega2560/ArduinoJson/src",
                     "c:/Users/Tom Powell/Documents/GitHub/rocket/flightcomputer/remote/.pio/libdeps/megaatmega2560/CryptoLW/src",
                     "c:/Users/Tom Powell/Documents/GitHub/rocket/flightcomputer/remote/.pio/libdeps/megaatmega2560/RadioHead",

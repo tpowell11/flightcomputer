@@ -6,9 +6,9 @@ Build: Platformio
 */
 //M.K.S UNITS
 #define DEBUG 1
-#define DEBUGALT 0
+#define DEBUGALT 1
 #define DEBUGIMU 0
-#define DEBUGLORA 1
+#define DEBUGLORA 0
 ///////////////////////////////////////////////////////////
 //Deployment & general run params
 
